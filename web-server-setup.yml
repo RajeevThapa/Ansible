@@ -1,0 +1,19 @@
+---
+- name: Configure Web Server # Name of the playbook
+  hosts: internalservers # Specify the target hosts on which playbook will run, located at: /etc/ansible/hosts
+  become: yes # Run tasks as sudo
+
+  tasks: # Begining of the list of the tasks that will be executed within the playbook
+    - name: Update apt package cache # First task
+      apt: # apt module allows ansible to manage packages on ubuntu
+        update_cache: yes # Parameter for apt module: specifies ansible should update the package cache on the target hosts
+
+    - name: Install Nginx # Second task
+      apt: # apt module allows ansible to manage packages on ubuntu
+        name: nginx # Parameter for apt module: specifies the name of the package to be installed, which is "nginx"
+        state: present # Parameter for apt module: specifies ansible should ensure the package is present (installed) on the target hosts
+
+    - name: Start Nginx service #3rd task
+      service: # Module used for managing system services
+        name: nginx # Parameter for service: specifies the name of the service to be managed, which is "nginx"
+        state: started # Parameter for service: specifies ansible should ensure "Nginx" service is "started" (running) state on the target hosts
